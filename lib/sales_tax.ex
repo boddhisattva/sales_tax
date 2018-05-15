@@ -22,7 +22,15 @@ defmodule SalesTax do
 
     products = Enum.map items, fn item ->
                   product = item |> String.split(",")
-                  %Item{quantity: String.trim(Enum.at(product, 0)), name: String.trim(Enum.at(product, 1)), price: String.trim(Enum.at(product, 2))}
+                  product = %Item{quantity: String.trim(Enum.at(product, 0)), name: String.trim(Enum.at(product, 1)), price: String.trim(Enum.at(product, 2))}
+                  imported?(product)
                 end
+
+
   end
+
+  defp imported?(item) do
+    %{ item | imported: String.contains?(item.name, "imported")}
+  end
+
 end
