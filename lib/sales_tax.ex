@@ -16,14 +16,13 @@ defmodule SalesTax do
   def compute do
     rows =
       File.stream!("input/shopping_basket1.csv")
-      |> Stream.map(&String.trim/1)
       |> Enum.to_list
 
     [head | items] = rows
 
     products = Enum.map items, fn item ->
                   product = item |> String.split(",")
-                  %Item{quantity: Enum.at(product, 0), name: Enum.at(product, 1), price: Enum.at(product, 2)}
+                  %Item{quantity: String.trim(Enum.at(product, 0)), name: String.trim(Enum.at(product, 1)), price: String.trim(Enum.at(product, 2))}
                 end
   end
 end
