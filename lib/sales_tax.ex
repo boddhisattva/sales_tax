@@ -24,6 +24,7 @@ defmodule SalesTax do
                   product = item |> String.split(",")
                   product = %Item{quantity: String.trim(Enum.at(product, 0)), name: String.trim(Enum.at(product, 1)), price: String.trim(Enum.at(product, 2))}
                   imported?(product)
+                  basic_sales_tax_applicable?(product)
                 end
 
 
@@ -32,5 +33,10 @@ defmodule SalesTax do
   defp imported?(item) do
     %{ item | imported: String.contains?(item.name, "imported")}
   end
+
+  defp basic_sales_tax_applicable?(item) do
+    %{ item | basic_sales_tax_applicable: String.contains?(item.name, ["food", "book", "medical products", "chocolates", "chocolate"])}
+  end
+
 
 end
