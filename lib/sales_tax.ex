@@ -43,20 +43,23 @@ defmodule SalesTax do
 
     products = Enum.map items, fn item ->
                  product = item |> String.split(",")
-                 product = %Item{quantity: String.trim(Enum.at(product, 0)), name: String.trim(Enum.at(product, 1)), price: String.to_float(String.trim(Enum.at(product, 2)))}
-                 product = imported?(product)
-                 basic_sales_tax_applicable?(product)
+                 %Item{quantity: String.trim(Enum.at(product, 0)), name: String.trim(Enum.at(product, 1)), price: String.to_float(String.trim(Enum.at(product, 2)))}
+                 |> imported?()
+                 |> basic_sales_tax_applicable?()
                end
 
     overall_total_sales_tax = 0
 
-    items_with_tax = Enum.map products, fn product ->
-                       basic_sales_tax = SalesTaxCalculator.calculate_basic_sales_tax(product)
-                       import_duty_sales_tax = SalesTaxCalculator.calculate_import_duty_sales_tax(product)
-                       total_sales_tax = basic_sales_tax + import_duty_sales_tax
-                       overall_total_sales_tax = overall_total_sales_tax + total_sales_tax
-                       %{ product | price: product.price + total_sales_tax }
-                     end
+items_with_tax =  List.foldl(products, ShoppingCart.new, fn product, shopping_cart ->
+                    basic_sales_tax = SalesTaxCalculator.calculate_basic_sales_tax(product)
+                    import_duty_sales_tax = SalesTaxCalculator.calculate_import_duty_sales_tax(product)
+                    total_sales_tax_from_item = basic_sales_tax + import_duty_sales_tax
+                    product = %{ product | price: product.price + total_sales_tax_from_item }
+                    %{ shopping_cart
+                       | total: shopping_cart.total + product.price ,
+                         sales_tax: shopping_cart.sales_tax + total_sales_tax_from_item,
+                         items: shopping_cart.items ++ [product] }
+                  end)
   end
 
   defp imported?(item) do
