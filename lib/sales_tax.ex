@@ -48,8 +48,14 @@ defmodule SalesTax do
                  basic_sales_tax_applicable?(product)
                end
 
+    overall_total_sales_tax = 0
+
     items_with_tax = Enum.map products, fn product ->
-                       SalesTaxCalculator.calculate_tax(product)
+                       basic_sales_tax = SalesTaxCalculator.calculate_basic_sales_tax(product)
+                       import_duty_sales_tax = SalesTaxCalculator.calculate_import_duty_sales_tax(product)
+                       total_sales_tax = basic_sales_tax + import_duty_sales_tax
+                       overall_total_sales_tax = overall_total_sales_tax + total_sales_tax
+                       %{ product | price: product.price + total_sales_tax }
                      end
   end
 
