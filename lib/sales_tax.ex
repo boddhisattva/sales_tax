@@ -44,7 +44,7 @@ defmodule SalesTax do
     products = Enum.map items, fn item ->
                  product = item |> String.split(",")
                  product = %Item{quantity: String.trim(Enum.at(product, 0)), name: String.trim(Enum.at(product, 1)), price: String.to_float(String.trim(Enum.at(product, 2)))}
-                 imported?(product)
+                 product = imported?(product)
                  basic_sales_tax_applicable?(product)
                end
 
