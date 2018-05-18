@@ -6,25 +6,19 @@ defmodule ReceiptCsvParser do
   end
 
   def parse_item(item) do
-    product = item |> String.split(",")
-    %Item{quantity: parse_quantity(product), name: parse_name(product), price: parse_price(product)}
+    [quantity, name, price] = item
+                              |> String.split(",")
+                              |> Enum.map(fn x -> String.trim(x) end)
+    %Item{quantity: parse_quantity(quantity), name: name, price: parse_price(price)}
     |> update_other_item_details()
   end
 
-  defp parse_quantity(product) do
-    Enum.at(product, 0)
-    |> String.trim()
-    |> String.to_integer()
+  defp parse_quantity(quantity) do
+    String.to_integer(quantity)
   end
 
-  defp parse_name(product) do
-    String.trim(Enum.at(product, 1))
-  end
-
-  defp parse_price(product) do
-    Enum.at(product, 2)
-    |> String.trim()
-    |> String.to_float()
+  defp parse_price(price) do
+    String.to_float(price)
   end
 
   defp update_other_item_details(item) do
