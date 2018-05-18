@@ -50,18 +50,18 @@ defmodule SalesTax do
 
     overall_total_sales_tax = 0
 
-items_with_tax =  List.foldl(products, ShoppingCart.new, fn product, shopping_cart ->
-                    basic_sales_tax_from_one_item = SalesTaxCalculator.calculate_basic_sales_tax(product)
-                    import_duty_sales_tax_from_one_item = SalesTaxCalculator.calculate_import_duty_sales_tax(product)
-                    total_sales_tax_from_one_item = basic_sales_tax_from_one_item + import_duty_sales_tax_from_one_item
-                    cart_product = %Item{price: (Float.round(product.price + total_sales_tax_from_one_item, 2)) * product.quantity, quantity: product.quantity,
-                                         name: product.name, basic_sales_tax_applicable: product.basic_sales_tax_applicable,
-                                         imported: product.imported}
-                    %{ shopping_cart
-                       | total: shopping_cart.total + Float.round(cart_product.price, 2),
-                         sales_tax: shopping_cart.sales_tax + total_sales_tax_from_one_item * product.quantity,
-                         items: shopping_cart.items ++ [cart_product] }
-                  end)
+    items_with_tax =  List.foldl(products, ShoppingCart.new, fn product, shopping_cart ->
+                      basic_sales_tax_from_one_item = SalesTaxCalculator.calculate_basic_sales_tax(product)
+                      import_duty_sales_tax_from_one_item = SalesTaxCalculator.calculate_import_duty_sales_tax(product)
+                      total_sales_tax_from_one_item = basic_sales_tax_from_one_item + import_duty_sales_tax_from_one_item
+                      cart_product = %Item{price: (Float.round(product.price + total_sales_tax_from_one_item, 2)) * product.quantity, quantity: product.quantity,
+                                           name: product.name, basic_sales_tax_applicable: product.basic_sales_tax_applicable,
+                                           imported: product.imported}
+                      %{ shopping_cart
+                         | total: shopping_cart.total + Float.round(cart_product.price, 2),
+                           sales_tax: shopping_cart.sales_tax + total_sales_tax_from_one_item * product.quantity,
+                           items: shopping_cart.items ++ [cart_product] }
+                    end)
   end
 
   defp imported?(item) do
