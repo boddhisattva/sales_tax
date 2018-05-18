@@ -48,8 +48,6 @@ defmodule SalesTax do
                  |> basic_sales_tax_applicable?()
                end
 
-    overall_total_sales_tax = 0
-
     items_with_tax =  List.foldl(products, ShoppingCart.new, fn product, shopping_cart ->
                       basic_sales_tax_from_one_item = SalesTaxCalculator.calculate_basic_sales_tax(product)
                       import_duty_sales_tax_from_one_item = SalesTaxCalculator.calculate_import_duty_sales_tax(product)
