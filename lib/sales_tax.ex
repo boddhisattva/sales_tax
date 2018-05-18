@@ -39,7 +39,7 @@ defmodule SalesTax do
       File.stream!("input/shopping_basket1.csv")
       |> Enum.to_list
 
-    [head | items] = rows
+    [_ | items] = rows
 
     products = Enum.map items, fn item ->
                  product = item |> String.split(",")
@@ -48,11 +48,11 @@ defmodule SalesTax do
                  |> basic_sales_tax_applicable?()
                end
 
-    items_with_tax =  List.foldl(products, ShoppingCart.new, fn product, shopping_cart ->
-                      total_sales_tax_from_one_item = SalesTaxCalculator.calculate_total_sales_tax(product)
-                      cart_product = initialize_cart_product(product, total_sales_tax_from_one_item)
-                      update_shopping_cart(shopping_cart, cart_product, total_sales_tax_from_one_item)
-                    end)
+    List.foldl(products, ShoppingCart.new, fn product, shopping_cart ->
+      total_sales_tax_from_one_item = SalesTaxCalculator.calculate_total_sales_tax(product)
+      cart_product = initialize_cart_product(product, total_sales_tax_from_one_item)
+      update_shopping_cart(shopping_cart, cart_product, total_sales_tax_from_one_item)
+    end)
   end
 
   defp parse_quantity(product) do
