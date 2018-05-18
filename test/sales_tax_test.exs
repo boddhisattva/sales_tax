@@ -15,7 +15,7 @@ defmodule SalesTaxTest do
       basic_sales_tax_applicable: true,
       imported: false,
       name: "music cd",
-      price: 16.489,
+      price: 16.49,
       quantity: 1
     },
     %Item{
@@ -26,8 +26,8 @@ defmodule SalesTaxTest do
       quantity: 1
     }
   ],
-  sales_tax: 1.499,
-  total: 29.829
+  sales_tax: 1.5,
+  total: 29.83
 }
   end
 end
