@@ -39,16 +39,14 @@ defmodule SalesTax do
 
   """
   def compute do
-    CsvParser.read_line_items("input/shopping_basket1.csv")
+    ReceiptCsvParser.read_line_items("input/shopping_basket1.csv")
     |> get_products()
     |> populate_shopping_cart_items()
   end
 
   defp get_products(items) do
     Enum.map items, fn item ->
-      CsvParser.parse_item(item)
-      |> imported?()
-      |> basic_sales_tax_applicable?()
+      ReceiptCsvParser.parse_item(item)
     end
   end
 
@@ -71,13 +69,5 @@ defmodule SalesTax do
        | total: shopping_cart.total + Float.round(cart_product.price, 2),
          sales_tax: shopping_cart.sales_tax + total_sales_tax_from_one_item * cart_product.quantity,
          items: shopping_cart.items ++ [cart_product] }
-  end
-
-  defp imported?(item) do
-    %{item | imported: String.contains?(item.name, "imported")}
-  end
-
-  defp basic_sales_tax_applicable?(item) do
-    %{item | basic_sales_tax_applicable: !String.contains?(item.name, ["food", "book", "medical products", "chocolates", "chocolate"])}
   end
 end
