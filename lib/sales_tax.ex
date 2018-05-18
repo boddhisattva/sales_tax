@@ -43,7 +43,7 @@ defmodule SalesTax do
 
     products = Enum.map items, fn item ->
                  product = item |> String.split(",")
-                 %Item{quantity: String.to_integer(String.trim(Enum.at(product, 0))), name: String.trim(Enum.at(product, 1)), price: String.to_float(String.trim(Enum.at(product, 2)))}
+                 %Item{quantity: parse_quantity(product), name: parse_name(product), price: parse_price(product)}
                  |> imported?()
                  |> basic_sales_tax_applicable?()
                end
@@ -62,6 +62,22 @@ defmodule SalesTax do
                            sales_tax: shopping_cart.sales_tax + total_sales_tax_from_one_item * product.quantity,
                            items: shopping_cart.items ++ [cart_product] }
                     end)
+  end
+
+  defp parse_quantity(product) do
+    Enum.at(product, 0)
+    |> String.trim()
+    |> String.to_integer()
+  end
+
+  defp parse_name(product) do
+    String.trim(Enum.at(product, 1))
+  end
+
+  defp parse_price(product) do
+    Enum.at(product, 2)
+    |> String.trim()
+    |> String.to_float()
   end
 
   defp imported?(item) do
