@@ -9,21 +9,21 @@ defmodule SalesTaxTest do
       imported: false,
       name: "book",
       price: 12.49,
-      quantity: "1"
+      quantity: 1
     },
     %Item{
       basic_sales_tax_applicable: true,
       imported: false,
       name: "music cd",
       price: 16.489,
-      quantity: "1"
+      quantity: 1
     },
     %Item{
       basic_sales_tax_applicable: false,
       imported: false,
       name: "chocolate bar",
       price: 0.85,
-      quantity: "1"
+      quantity: 1
     }
   ],
   sales_tax: 1.499,

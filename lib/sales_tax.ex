@@ -43,7 +43,7 @@ defmodule SalesTax do
 
     products = Enum.map items, fn item ->
                  product = item |> String.split(",")
-                 %Item{quantity: String.trim(Enum.at(product, 0)), name: String.trim(Enum.at(product, 1)), price: String.to_float(String.trim(Enum.at(product, 2)))}
+                 %Item{quantity: String.to_integer(String.trim(Enum.at(product, 0))), name: String.trim(Enum.at(product, 1)), price: String.to_float(String.trim(Enum.at(product, 2)))}
                  |> imported?()
                  |> basic_sales_tax_applicable?()
                end
@@ -51,14 +51,16 @@ defmodule SalesTax do
     overall_total_sales_tax = 0
 
 items_with_tax =  List.foldl(products, ShoppingCart.new, fn product, shopping_cart ->
-                    basic_sales_tax = SalesTaxCalculator.calculate_basic_sales_tax(product)
-                    import_duty_sales_tax = SalesTaxCalculator.calculate_import_duty_sales_tax(product)
-                    total_sales_tax_from_item = basic_sales_tax + import_duty_sales_tax
-                    product = %{ product | price: product.price + total_sales_tax_from_item }
+                    basic_sales_tax_from_one_item = SalesTaxCalculator.calculate_basic_sales_tax(product)
+                    import_duty_sales_tax_from_one_item = SalesTaxCalculator.calculate_import_duty_sales_tax(product)
+                    total_sales_tax_from_one_item = basic_sales_tax_from_one_item + import_duty_sales_tax_from_one_item
+                    cart_product = %Item{price: (product.price + total_sales_tax_from_one_item) * product.quantity, quantity: product.quantity,
+                                         name: product.name, basic_sales_tax_applicable: product.basic_sales_tax_applicable,
+                                         imported: product.imported}
                     %{ shopping_cart
-                       | total: shopping_cart.total + product.price ,
-                         sales_tax: shopping_cart.sales_tax + total_sales_tax_from_item,
-                         items: shopping_cart.items ++ [product] }
+                       | total: shopping_cart.total + cart_product.price,
+                         sales_tax: shopping_cart.sales_tax + total_sales_tax_from_one_item * product.quantity,
+                         items: shopping_cart.items ++ [cart_product] }
                   end)
   end
 
