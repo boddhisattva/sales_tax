@@ -50,9 +50,7 @@ defmodule SalesTax do
 
     items_with_tax =  List.foldl(products, ShoppingCart.new, fn product, shopping_cart ->
                       total_sales_tax_from_one_item = SalesTaxCalculator.calculate_total_sales_tax(product)
-                      cart_product = %Item{price: (Float.round(product.price + total_sales_tax_from_one_item, 2)) * product.quantity, quantity: product.quantity,
-                                           name: product.name, basic_sales_tax_applicable: product.basic_sales_tax_applicable,
-                                           imported: product.imported}
+                      cart_product = initialize_cart_product(product, total_sales_tax_from_one_item)
                       %{ shopping_cart
                          | total: shopping_cart.total + Float.round(cart_product.price, 2),
                            sales_tax: shopping_cart.sales_tax + total_sales_tax_from_one_item * product.quantity,
@@ -74,6 +72,12 @@ defmodule SalesTax do
     Enum.at(product, 2)
     |> String.trim()
     |> String.to_float()
+  end
+
+  defp initialize_cart_product(product, total_sales_tax_from_one_item) do
+    %Item{price: (Float.round(product.price + total_sales_tax_from_one_item, 2)) * product.quantity, quantity: product.quantity,
+          name: product.name, basic_sales_tax_applicable: product.basic_sales_tax_applicable,
+          imported: product.imported}
   end
 
   defp imported?(item) do
