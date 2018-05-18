@@ -49,9 +49,7 @@ defmodule SalesTax do
                end
 
     items_with_tax =  List.foldl(products, ShoppingCart.new, fn product, shopping_cart ->
-                      basic_sales_tax_from_one_item = SalesTaxCalculator.calculate_basic_sales_tax(product)
-                      import_duty_sales_tax_from_one_item = SalesTaxCalculator.calculate_import_duty_sales_tax(product)
-                      total_sales_tax_from_one_item = basic_sales_tax_from_one_item + import_duty_sales_tax_from_one_item
+                      total_sales_tax_from_one_item = SalesTaxCalculator.calculate_total_sales_tax(product)
                       cart_product = %Item{price: (Float.round(product.price + total_sales_tax_from_one_item, 2)) * product.quantity, quantity: product.quantity,
                                            name: product.name, basic_sales_tax_applicable: product.basic_sales_tax_applicable,
                                            imported: product.imported}
@@ -85,6 +83,4 @@ defmodule SalesTax do
   defp basic_sales_tax_applicable?(item) do
     %{ item | basic_sales_tax_applicable: !String.contains?(item.name, ["food", "book", "medical products", "chocolates", "chocolate"])}
   end
-
-
 end
