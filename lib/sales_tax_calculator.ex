@@ -21,6 +21,9 @@ defmodule SalesTaxCalculator do
   end
 
   defp round_up_to_the_nearest_number(price) do
-    Float.round(Float.ceil(price / @number_to_round_off_to) * @number_to_round_off_to, 2)
+    price / @number_to_round_off_to
+    |> Float.ceil()
+    |> Kernel.*(@number_to_round_off_to)
+    |> Float.round(2)
   end
 end
