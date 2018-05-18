@@ -39,18 +39,16 @@ defmodule SalesTax do
 
   """
   def compute do
-      File.stream!("input/shopping_basket1.csv")
-      |> Enum.to_list
-      |> tl
-      |> get_products()
-      |> populate_shopping_cart_items()
+    CsvParser.read_line_items("input/shopping_basket1.csv")
+    |> get_products()
+    |> populate_shopping_cart_items()
   end
 
   defp get_products(items) do
     Enum.map items, fn item ->
-       parse_item(item)
-       |> imported?()
-       |> basic_sales_tax_applicable?()
+      CsvParser.parse_item(item)
+      |> imported?()
+      |> basic_sales_tax_applicable?()
     end
   end
 
@@ -60,27 +58,6 @@ defmodule SalesTax do
       cart_product = initialize_cart_product(product, total_sales_tax_from_one_item)
       update_shopping_cart(shopping_cart, cart_product, total_sales_tax_from_one_item)
     end)
-  end
-
-  defp parse_item(item) do
-    product = item |> String.split(",")
-    %Item{quantity: parse_quantity(product), name: parse_name(product), price: parse_price(product)}
-  end
-
-  defp parse_quantity(product) do
-    Enum.at(product, 0)
-    |> String.trim()
-    |> String.to_integer()
-  end
-
-  defp parse_name(product) do
-    String.trim(Enum.at(product, 1))
-  end
-
-  defp parse_price(product) do
-    Enum.at(product, 2)
-    |> String.trim()
-    |> String.to_float()
   end
 
   defp initialize_cart_product(product, total_sales_tax_from_one_item) do
@@ -97,10 +74,10 @@ defmodule SalesTax do
   end
 
   defp imported?(item) do
-    %{ item | imported: String.contains?(item.name, "imported")}
+    %{item | imported: String.contains?(item.name, "imported")}
   end
 
   defp basic_sales_tax_applicable?(item) do
-    %{ item | basic_sales_tax_applicable: !String.contains?(item.name, ["food", "book", "medical products", "chocolates", "chocolate"])}
+    %{item | basic_sales_tax_applicable: !String.contains?(item.name, ["food", "book", "medical products", "chocolates", "chocolate"])}
   end
 end
