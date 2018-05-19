@@ -22,6 +22,10 @@ defmodule SalesTax do
     compute(opts[:filename])
   end
 
+  def compute(nil) do
+    IO.puts "Please specify the input receipt file name when trying to compute Sales Tax"
+  end
+
   def compute(filename) do
     ReceiptCsvParser.read_line_items(filename)
     |> get_products()
