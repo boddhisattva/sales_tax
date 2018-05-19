@@ -3,7 +3,7 @@ defmodule SalesTaxTest do
 
   import ExUnit.CaptureIO
 
-  test "greets the world" do
+  test "Computes sales tax" do
     filename = "input/shopping_basket1.csv"
 
     compute_sales_tax = fn ->
