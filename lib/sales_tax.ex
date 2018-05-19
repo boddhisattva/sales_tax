@@ -38,7 +38,7 @@ defmodule SalesTax do
     ReceiptCsvParser.read_line_items(filename)
     |> get_products()
     |> populate_shopping_cart_items()
-    |> generate_receipt_details()
+    |> ReceiptGenerator.generate_details()
   end
 
   defp get_products(items) do
@@ -53,13 +53,5 @@ defmodule SalesTax do
       cart_product = ShoppingCart.initialize_cart_product(total_sales_tax_from_one_item, product)
       ShoppingCart.update(shopping_cart, cart_product, total_sales_tax_from_one_item)
     end)
-  end
-
-  defp generate_receipt_details(cart_details) do
-    Enum.map cart_details.items, fn item ->
-      IO.puts "#{item.quantity}, #{item.name}, #{item.price}"
-    end
-    IO.puts "\nSales Taxes: #{cart_details.sales_tax}"
-    IO.puts "Total: #{cart_details.total}"
   end
 end
