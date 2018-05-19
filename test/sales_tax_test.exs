@@ -4,8 +4,10 @@ defmodule SalesTaxTest do
   import ExUnit.CaptureIO
 
   test "greets the world" do
+    filename = "input/shopping_basket1.csv"
+
     compute_sales_tax = fn ->
-      SalesTax.compute()
+      SalesTax.compute(filename)
     end
 
   assert capture_io(compute_sales_tax) =~ "1, book, 12.49

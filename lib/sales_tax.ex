@@ -17,8 +17,13 @@ defmodule SalesTax do
           Total: 29.83
           :ok
   """
-  def compute do
-    ReceiptCsvParser.read_line_items("input/shopping_basket1.csv")
+  def main(args) do
+    {opts, _, _} = OptionParser.parse(args, switches: [filename: :string], aliases: [f: :filename])
+    compute(opts[:filename])
+  end
+
+  def compute(filename) do
+    ReceiptCsvParser.read_line_items(filename)
     |> get_products()
     |> populate_shopping_cart_items()
     |> generate_receipt_details()
