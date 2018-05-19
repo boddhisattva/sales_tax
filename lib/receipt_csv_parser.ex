@@ -9,6 +9,7 @@ defmodule ReceiptCsvParser do
     [quantity, name, price] = item
                               |> String.split(",")
                               |> Enum.map(fn x -> String.trim(x) end)
+
     %Item{quantity: parse_quantity(quantity), name: name, price: parse_price(price)}
     |> update_other_item_details()
   end
