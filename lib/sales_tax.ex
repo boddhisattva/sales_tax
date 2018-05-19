@@ -19,11 +19,19 @@ defmodule SalesTax do
   """
   def main(args) do
     {opts, _, _} = OptionParser.parse(args, switches: [filename: :string], aliases: [f: :filename])
-    compute(opts[:filename])
+    if opts[:filename] do
+      process(File.exists?(opts[:filename]), opts[:filename])
+    else
+      IO.puts "Please specify the input receipt file name when trying to compute Sales Tax"
+    end
   end
 
-  def compute(nil) do
-    IO.puts "Please specify the input receipt file name when trying to compute Sales Tax"
+  def process(true, filename) do
+    compute(filename)
+  end
+
+  def process(false, _filename) do
+    IO.puts "Specified file name does not exist. Please try again."
   end
 
   def compute(filename) do
