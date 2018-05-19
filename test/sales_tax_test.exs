@@ -1,33 +1,18 @@
 defmodule SalesTaxTest do
   use ExUnit.Case
 
+  import ExUnit.CaptureIO
+
   test "greets the world" do
-  assert SalesTax.compute() == %ShoppingCart{
-  items: [
-    %Item{
-      basic_sales_tax_applicable: false,
-      imported: false,
-      name: "book",
-      price: 12.49,
-      quantity: 1
-    },
-    %Item{
-      basic_sales_tax_applicable: true,
-      imported: false,
-      name: "music cd",
-      price: 16.49,
-      quantity: 1
-    },
-    %Item{
-      basic_sales_tax_applicable: false,
-      imported: false,
-      name: "chocolate bar",
-      price: 0.85,
-      quantity: 1
-    }
-  ],
-  sales_tax: 1.5,
-  total: 29.83
-}
+    compute_sales_tax = fn ->
+      SalesTax.compute()
+    end
+
+  assert capture_io(compute_sales_tax) =~ "1, book, 12.49
+1, music cd, 16.49
+1, chocolate bar, 0.85
+
+Sales Taxes: 1.5
+Total: 29.83"
   end
 end

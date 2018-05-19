@@ -9,39 +9,19 @@ defmodule SalesTax do
   ## Examples
 
       iex> SalesTax.compute
-%ShoppingCart{
-  items: [
-    %Item{
-      basic_sales_tax_applicable: false,
-      imported: false,
-      name: "book",
-      price: 12.49,
-      quantity: 1
-    },
-    %Item{
-      basic_sales_tax_applicable: true,
-      imported: false,
-      name: "music cd",
-      price: 16.49,
-      quantity: 1
-    },
-    %Item{
-      basic_sales_tax_applicable: false,
-      imported: false,
-      name: "chocolate bar",
-      price: 0.85,
-      quantity: 1
-    }
-  ],
-  sales_tax: 1.5,
-  total: 29.83
-}
+          1, book, 12.49
+          1, music cd, 16.49
+          1, chocolate bar, 0.85
 
+          Sales Taxes: 1.5
+          Total: 29.83
+          :ok
   """
   def compute do
     ReceiptCsvParser.read_line_items("input/shopping_basket1.csv")
     |> get_products()
     |> populate_shopping_cart_items()
+    |> generate_receipt_details()
   end
 
   defp get_products(items) do
@@ -56,5 +36,13 @@ defmodule SalesTax do
       cart_product = ShoppingCart.initialize_cart_product(total_sales_tax_from_one_item, product)
       ShoppingCart.update(shopping_cart, cart_product, total_sales_tax_from_one_item)
     end)
+  end
+
+  defp generate_receipt_details(cart_details) do
+    Enum.map cart_details.items, fn item ->
+      IO.puts "#{item.quantity}, #{item.name}, #{item.price}"
+    end
+    IO.puts "\nSales Taxes: #{cart_details.sales_tax}"
+    IO.puts "Total: #{cart_details.total}"
   end
 end
