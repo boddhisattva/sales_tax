@@ -19,7 +19,6 @@ defmodule ReceiptCsvParser do
     |> tl
   end
 
-
   @doc """
   This function is used to parse the line items
 
