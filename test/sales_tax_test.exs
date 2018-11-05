@@ -26,7 +26,8 @@ Total: 29.83"
         SalesTax.main(args)
       end
 
-      assert capture_io(compute_sales_tax) =~ "Specified file name does not exist. Please try again."
+      assert capture_io(compute_sales_tax) =~
+               "Specified file name does not exist. Please try again."
     end
 
     test "filename option not specified prompts a user with message to specify filename " do
@@ -36,7 +37,8 @@ Total: 29.83"
         SalesTax.main(args)
       end
 
-      assert capture_io(compute_sales_tax) =~ "Please specify the input receipt file name when trying to compute Sales Tax"
+      assert capture_io(compute_sales_tax) =~
+               "Please specify the input receipt file name when trying to compute Sales Tax"
     end
   end
 end

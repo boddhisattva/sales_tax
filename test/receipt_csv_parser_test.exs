@@ -5,7 +5,11 @@ defmodule ReceiptCsvParserTest do
     test "it reads line items from the file" do
       filename = "input/shopping_basket1.csv"
 
-      assert ReceiptCsvParser.read_line_items(filename) == ["1, book, 12.49\n", "1, music cd, 14.99\n", "1, chocolate bar, 0.85"]
+      assert ReceiptCsvParser.read_line_items(filename) == [
+               "1, book, 12.49\n",
+               "1, music cd, 14.99\n",
+               "1, chocolate bar, 0.85"
+             ]
     end
   end
 
@@ -14,12 +18,12 @@ defmodule ReceiptCsvParserTest do
       item_details = "1, book, 12.49\n"
 
       assert ReceiptCsvParser.parse_item(item_details) == %Item{
-        basic_sales_tax_applicable: false,
-        imported: false,
-        name: "book",
-        price: 12.49,
-        quantity: 1
-      }
+               basic_sales_tax_applicable: false,
+               imported: false,
+               name: "book",
+               price: 12.49,
+               quantity: 1
+             }
     end
   end
 end

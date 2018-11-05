@@ -4,8 +4,9 @@ defmodule SalesTaxCalculator do
   @number_to_round_off_to 0.05
 
   def calculate_total_sales_tax(product) do
-    total_amount = calculate_basic_sales_tax(product.basic_sales_tax_applicable, product.price) +
-                   calculate_import_duty_sales_tax(product)
+    total_amount =
+      calculate_basic_sales_tax(product.basic_sales_tax_applicable, product.price) +
+        calculate_import_duty_sales_tax(product)
 
     if total_amount != 0 do
       Float.round(total_amount, 2)
@@ -31,7 +32,7 @@ defmodule SalesTaxCalculator do
   end
 
   defp round_up_to_the_nearest_number(price) do
-    price / @number_to_round_off_to
+    (price / @number_to_round_off_to)
     |> Float.ceil()
     |> Kernel.*(@number_to_round_off_to)
     |> Float.round(2)

@@ -18,11 +18,13 @@ defmodule SalesTax do
           :ok
   """
   def main(args) do
-    {opts, _, _} = OptionParser.parse(args, switches: [filename: :string], aliases: [f: :filename])
+    {opts, _, _} =
+      OptionParser.parse(args, switches: [filename: :string], aliases: [f: :filename])
+
     if opts[:filename] do
       process(File.exists?(opts[:filename]), opts[:filename])
     else
-      IO.puts "Please specify the input receipt file name when trying to compute Sales Tax"
+      IO.puts("Please specify the input receipt file name when trying to compute Sales Tax")
     end
   end
 
@@ -31,7 +33,7 @@ defmodule SalesTax do
   end
 
   defp process(false, _filename) do
-    IO.puts "Specified file name does not exist. Please try again."
+    IO.puts("Specified file name does not exist. Please try again.")
   end
 
   defp compute(filename) do
@@ -42,13 +44,13 @@ defmodule SalesTax do
   end
 
   defp get_products(items) do
-    Enum.map items, fn item ->
+    Enum.map(items, fn item ->
       ReceiptCsvParser.parse_item(item)
-    end
+    end)
   end
 
   defp populate_shopping_cart_items(products) do
-    List.foldl(products, ShoppingCart.new, fn product, shopping_cart ->
+    List.foldl(products, ShoppingCart.new(), fn product, shopping_cart ->
       total_sales_tax_from_one_item = SalesTaxCalculator.calculate_total_sales_tax(product)
       cart_product = ShoppingCart.initialize_cart_product(total_sales_tax_from_one_item, product)
       ShoppingCart.update(shopping_cart, cart_product, total_sales_tax_from_one_item)

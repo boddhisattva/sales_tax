@@ -35,22 +35,23 @@ defmodule ShoppingCartTest do
         price: 32.98,
         quantity: 2
       }
+
       total_sales_tax_from_one_item = 1.5
 
       assert ShoppingCart.update(shopping_cart, cart_product, total_sales_tax_from_one_item) ==
-        %ShoppingCart{
-          items: [
-            %Item{
-              basic_sales_tax_applicable: true,
-              imported: false,
-              name: "music cd",
-              price: 32.98,
-              quantity: 2
-            }
-          ],
-          sales_tax: 3.0,
-          total: 32.98
-        }
+               %ShoppingCart{
+                 items: [
+                   %Item{
+                     basic_sales_tax_applicable: true,
+                     imported: false,
+                     name: "music cd",
+                     price: 32.98,
+                     quantity: 2
+                   }
+                 ],
+                 sales_tax: 3.0,
+                 total: 32.98
+               }
     end
   end
 end

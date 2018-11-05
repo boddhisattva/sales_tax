@@ -15,7 +15,6 @@ defmodule ItemTest do
     end
   end
 
-
   describe "basic_sales_tax_applicable?" do
     test "An item that belongs to food, book or medical products related categories is treated exempt from basic sales tax" do
       item = %Item{quantity: 1, name: "The tale of two cities book", price: 47.5}
