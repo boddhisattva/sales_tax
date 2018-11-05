@@ -8,7 +8,7 @@ defmodule SalesTax do
 
   ## Examples
 
-      iex> SalesTax.compute
+      iex> SalesTax.main(["--filename=input/shopping_basket1.csv"])
           1, book, 12.49
           1, music cd, 16.49
           1, chocolate bar, 0.85
@@ -26,15 +26,15 @@ defmodule SalesTax do
     end
   end
 
-  def process(true, filename) do
+  defp process(true, filename) do
     compute(filename)
   end
 
-  def process(false, _filename) do
+  defp process(false, _filename) do
     IO.puts "Specified file name does not exist. Please try again."
   end
 
-  def compute(filename) do
+  defp compute(filename) do
     ReceiptCsvParser.read_line_items(filename)
     |> get_products()
     |> populate_shopping_cart_items()
