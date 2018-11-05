@@ -32,7 +32,7 @@ defmodule ShoppingCartTest do
         basic_sales_tax_applicable: true,
         imported: false,
         name: "music cd",
-        price: 14.99,
+        price: 32.98,
         quantity: 2
       }
       total_sales_tax_from_one_item = 1.5
@@ -44,12 +44,12 @@ defmodule ShoppingCartTest do
               basic_sales_tax_applicable: true,
               imported: false,
               name: "music cd",
-              price: 14.99,
+              price: 32.98,
               quantity: 2
             }
           ],
           sales_tax: 3.0,
-          total: 29.98
+          total: 32.98
         }
     end
   end

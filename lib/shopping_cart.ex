@@ -11,7 +11,7 @@ defmodule ShoppingCart do
 
   def update(shopping_cart, cart_product, total_sales_tax_from_one_item) do
     %{ shopping_cart
-       | total: shopping_cart.total + Float.round(cart_product.price, 2) * cart_product.quantity,
+       | total: shopping_cart.total + Float.round(cart_product.price, 2),
          sales_tax: shopping_cart.sales_tax + total_sales_tax_from_one_item * cart_product.quantity,
          items: shopping_cart.items ++ [cart_product] }
   end
