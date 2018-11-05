@@ -1,10 +1,10 @@
 defmodule SalesTax do
   @moduledoc """
-  Documentation for SalesTax.
+  This module is used to process SalesTax. This is the entrypoint of the command line application.
   """
 
   @doc """
-  Compute Sales Tax.
+  This function is used to compute sales tax and display the receipt details.
 
   ## Examples
 
@@ -17,6 +17,7 @@ defmodule SalesTax do
           Total: 29.83
           :ok
   """
+  @spec main(list) :: String
   def main(args) do
     {opts, _, _} =
       OptionParser.parse(args, switches: [filename: :string], aliases: [f: :filename])
