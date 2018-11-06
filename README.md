@@ -1,10 +1,6 @@
 ## About
 
-Based on the [given problem statement](https://github.com/boddhisattva/sales_tax/blob/master/problem_statement.md) this is a program that calculates sales tax and prints out a receipt which has the following details related to a purchase:
-
-* Items purchased and their related cost(including applicable taxes if any)
-* Total sales tax collected
-* Total costs incurred related to the overall purchase.
+Based on the [given problem statement](https://github.com/boddhisattva/sales_tax/blob/master/problem_statement.md) this is a program that calculates sales tax and prints out a receipt which has the pricing details(including tax) related to the purchase of each item. One can **read more about design decisions** based on which how this app is built from [this section](https://github.com/boddhisattva/sales_tax/blob/master/README.md#code-related-design-decisions). You can see how a *purchase receipt* looks like from [the sample program output section](https://github.com/boddhisattva/sales_tax/blob/master/README.md#program-output).
 
 ## Code related design decisions
 
