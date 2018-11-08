@@ -3,6 +3,8 @@ defmodule Item do
   This module contains Item specific information
   """
 
+  @type t :: %__MODULE__{}
+
   defstruct quantity: 0, name: "", price: 0, imported: false, basic_sales_tax_applicable: true
   @imported_item_identifier "imported"
   @items_exempt_from_basic_sales_tax [
@@ -28,7 +30,7 @@ defmodule Item do
     iex> Item.imported?(item)
     false
   """
-  @spec imported?(Item) :: boolean
+  @spec imported?(Item.t) :: boolean
   def imported?(item) do
     String.contains?(item.name, @imported_item_identifier)
   end
@@ -47,7 +49,7 @@ defmodule Item do
     iex> Item.basic_sales_tax_applicable?(item)
     true
   """
-  @spec basic_sales_tax_applicable?(Item) :: boolean
+  @spec basic_sales_tax_applicable?(Item.t) :: boolean
   def basic_sales_tax_applicable?(item) do
     !String.contains?(item.name, @items_exempt_from_basic_sales_tax)
   end
