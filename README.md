@@ -64,6 +64,7 @@ Total: 74.68
 ```
 
 ### Scope for further improvements
+* Replacing Float related usage with [Decimal](https://github.com/ericmj/decimal)
 * Get a list of items exempt from basic sales tax based on user input
 * Incorporate more taxes related to a product like GST etc.,
 
