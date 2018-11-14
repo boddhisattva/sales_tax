@@ -22,7 +22,7 @@ defmodule SalesTaxCalculator do
     iex> SalesTaxCalculator.calculate_total_sales_tax(product)
     4.2
   """
-  @spec calculate_total_sales_tax(Item) :: float
+  @spec calculate_total_sales_tax(Item.t()) :: number
   def calculate_total_sales_tax(product) do
     total_amount =
       calculate_basic_sales_tax(product.basic_sales_tax_applicable, product.price) +

@@ -17,7 +17,7 @@ defmodule SalesTax do
           Total: 29.83
           :ok
   """
-  @spec main(list) :: String
+  @spec main([binary()]) :: :ok
   def main(args) do
     {opts, _, _} =
       OptionParser.parse(args, switches: [filename: :string], aliases: [f: :filename])

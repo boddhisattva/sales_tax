@@ -3,6 +3,8 @@ defmodule ShoppingCart do
   This module is used to maintain shopping cart information
   """
 
+  @type t :: %{:items => [any()], :sales_tax => number(), :total => float()}
+
   defstruct total: 0, sales_tax: 0, items: []
 
   def new, do: %__MODULE__{}
@@ -30,7 +32,7 @@ defmodule ShoppingCart do
            quantity: 2
          }
   """
-  @spec initialize_cart_product(Float, Item) :: Item
+  @spec initialize_cart_product(number, Item.t()) :: Item.t()
   def initialize_cart_product(total_sales_tax_from_one_item, product) do
     %Item{
       price: Float.round(product.price + total_sales_tax_from_one_item, 2) * product.quantity,
@@ -73,7 +75,7 @@ defmodule ShoppingCart do
            total: 32.98
          }
   """
-  @spec update(ShoppingCart, Item, Float) :: ShoppingCart
+  @spec update(ShoppingCart.t(), Item.t(), number) :: ShoppingCart.t()
   def update(shopping_cart, cart_product, total_sales_tax_from_one_item) do
     %{
       shopping_cart

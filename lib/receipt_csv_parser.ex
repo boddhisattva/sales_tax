@@ -12,7 +12,7 @@ defmodule ReceiptCsvParser do
     iex> ReceiptCsvParser.read_line_items(file_path)
     ["1, book, 12.49\n", "1, music cd, 14.99\n", "1, chocolate bar, 0.85"]
   """
-  @spec read_line_items(String) :: list
+  @spec read_line_items(String.t) :: list(String.t)
   def read_line_items(file_path) do
     File.stream!(file_path)
     |> Enum.to_list()
@@ -34,7 +34,7 @@ defmodule ReceiptCsvParser do
       quantity: 1
     }
   """
-  @spec parse_item(Item) :: Item
+  @spec parse_item(String.t) :: Item.t()
   def parse_item(item) do
     [quantity, name, price] =
       item
