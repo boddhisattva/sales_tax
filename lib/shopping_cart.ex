@@ -3,24 +3,6 @@ defmodule ShoppingCart do
   This module is used to maintain shopping cart information
   """
 
-  @type t :: %__MODULE__{}
-  @type input_item :: %Item{
-    :basic_sales_tax_applicable => boolean(),
-    :imported => boolean(),
-    :name => binary(),
-    :price => number(),
-    :quantity => number()
-  }
-
-
-  @type output_item :: %Item{
-    :basic_sales_tax_applicable => boolean(),
-    :imported => boolean(),
-    :name => binary(),
-    :price => float(),
-    :quantity => number()
-  }
-
   @type shopping_cart_params :: %{:items => [any()], :sales_tax => number(), :total => float()}
 
   defstruct total: 0, sales_tax: 0, items: []
@@ -50,7 +32,7 @@ defmodule ShoppingCart do
            quantity: 2
          }
   """
-  @spec initialize_cart_product(number, input_item) :: output_item
+  @spec initialize_cart_product(number, Item.t()) :: Item.t()
   def initialize_cart_product(total_sales_tax_from_one_item, product) do
     %Item{
       price: Float.round(product.price + total_sales_tax_from_one_item, 2) * product.quantity,
@@ -93,7 +75,7 @@ defmodule ShoppingCart do
            total: 32.98
          }
   """
-  @spec update(%{:items => [any()], :sales_tax => number(), :total => number()}, %{:price => float(), :quantity => number()}, number) :: shopping_cart_params
+  @spec update(shopping_cart_params, Item.t(), number) :: shopping_cart_params
   def update(shopping_cart, cart_product, total_sales_tax_from_one_item) do
     %{
       shopping_cart

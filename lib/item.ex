@@ -3,7 +3,13 @@ defmodule Item do
   This module contains Item specific information
   """
 
-  @type t :: %__MODULE__{}
+  @type t :: %__MODULE__{
+    :basic_sales_tax_applicable => boolean(),
+    :imported => boolean(),
+    :name => binary(),
+    :price => number(),
+    :quantity => integer()
+  }
 
   defstruct quantity: 0, name: "", price: 0, imported: false, basic_sales_tax_applicable: true
   @imported_item_identifier "imported"

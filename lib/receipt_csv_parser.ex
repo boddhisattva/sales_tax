@@ -3,14 +3,6 @@ defmodule ReceiptCsvParser do
   This module is a CSV parser for a file that contains shopping cart info
   """
 
-  @type item :: %Item{
-    :basic_sales_tax_applicable => boolean(),
-    :imported => boolean(),
-    :name => binary(),
-    :price => float(),
-    :quantity => integer()
-  }
-
   @doc """
   This function is used to read line items from a file
 
@@ -42,7 +34,7 @@ defmodule ReceiptCsvParser do
       quantity: 1
     }
   """
-  @spec parse_item(String.t) :: item
+  @spec parse_item(String.t) :: Item.t()
   def parse_item(item) do
     [quantity, name, price] =
       item

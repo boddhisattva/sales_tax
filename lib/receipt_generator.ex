@@ -44,7 +44,7 @@ defmodule ReceiptGenerator do
       Total: 29.83
       :ok
   """
-  @spec generate_details(ShoppingCart.t) :: :ok
+  @spec generate_details(ShoppingCart.shopping_cart_params()) :: :ok
   def generate_details(cart_details) do
     Enum.map(cart_details.items, fn item ->
       IO.puts("#{item.quantity}, #{item.name}, #{item.price}")
